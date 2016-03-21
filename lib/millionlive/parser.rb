@@ -1,5 +1,5 @@
 require "millionlive/parser/version"
-require "Millionlive/Parser/client"
+require "millionlive/parser/client"
 
 module Millionlive
   module Parser
