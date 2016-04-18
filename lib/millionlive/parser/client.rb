@@ -35,8 +35,6 @@ module Millionlive::Parser
       end.take_while{|h| h[:rank] <= upto}.to_a
     end
 
-    private
-
     # visit a specified url(submit is needed after agent.get)
     def visit url
       @agent.get url
