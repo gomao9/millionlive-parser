@@ -22,7 +22,13 @@ module Millionlive::Parser
     # get event ranking
     def event_ranking(event_id, upto=2000, idol_no=nil)
       (1..Float::INFINITY).each.lazy.flat_map do |index|
-        @agent.get "http://imas.gree-apps.net/app/index.php/event/#{event_id}/ranking/general?page=#{index}&idol=#{idol_no}"
+        url = "http://imas.gree-apps.net/app/index.php/event/#{event_id}/ranking/general?page=#{index}&idol=#{idol_no}"
+        if index == 1
+          visit url
+        else
+          @agent.get url
+        end
+
         css = '#wrapper td.user-list-st'
         tds = page.search(css)
         tds.map do |td|
