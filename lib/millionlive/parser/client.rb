@@ -20,9 +20,9 @@ module Millionlive::Parser
     end
 
     # get event ranking
-    def event_ranking(event_id, upto=2000)
+    def event_ranking(event_id, upto=2000, idol_no=nil)
       (1..Float::INFINITY).each.lazy.flat_map do |index|
-        visit "http://imas.gree-apps.net/app/index.php/event/#{event_id}/ranking/general?page=#{index}"
+        visit "http://imas.gree-apps.net/app/index.php/event/#{event_id}/ranking/general?page=#{index}/idol=#{idol_no}"
         css = '#wrapper td.user-list-st'
         tds = page.search(css)
         tds.map do |td|
