@@ -42,6 +42,28 @@ module Millionlive::Parser
       end.take_while{|h| h[:rank] <= upto}.to_a
     end
 
+    def ula_ranking(event_id, upto, team_no)
+      (1..Float::INFINITY).each.lazy.flat_map do |index|
+        url = "http://imas.gree-apps.net/app/index.php/event/#{event_id}/ranking/ula?page=#{index}&team=#{team_no}"
+        if index == 1
+          visit url
+        else
+          @agent.get url
+        end
+
+        css = '#wrapper td.user-list-st'
+        tds = page.search(css)
+        tds.map do |td|
+          {
+            rank: td.children[0].text.to_i,
+            name: td.children[3].text,
+            user_id: td.children[3].attr('href').split('/').last.to_i,
+            point: td.children[7].text.delete(',').to_i,
+          }
+        end
+      end.take_while{|h| h[:rank] <= upto}.to_a
+    end
+
     # visit a specified url(submit is needed after agent.get)
     def visit url
       @agent.get url
