@@ -35,6 +35,7 @@ module Millionlive::Parser
           {
             rank: td.children[0].text.to_i,
             name: td.children[3].text,
+            user_id: td.children[3].attr('href').split('/').last.to_i,
             point: td.children[7].text.delete(',').to_i,
           }
         end
